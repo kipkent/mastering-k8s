@@ -331,8 +331,11 @@ start() {
     fi
 
     echo "Waiting for components to be ready..."
-    sleep 10
+    sleep 20
 
+    echo "Remove the taint node manually"
+    sudo sudo kubebuilder/bin/kubectl taint nodes $(hostname) node.cloudprovider.kubernetes.io/uninitialized-
+    
     echo "Verifying setup..."
     sudo kubebuilder/bin/kubectl get nodes
     sudo kubebuilder/bin/kubectl get all -A
