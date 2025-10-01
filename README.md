@@ -274,6 +274,10 @@ sudo kubebuilder/bin/kubectl get componentstatuses
 # Check API server health
 sudo kubebuilder/bin/kubectl get --raw='/readyz?verbose'
 
+# fix nginx pod
+**# Remove the taint manually**
+sudo kubebuilder/bin/kubectl taint nodes $(hostname) node.cloudprovider.kubernetes.io/uninitialized-
+
 # Create Deployment 
 sudo  kubebuilder/bin/kubectl create deploy demo --image nginx
 
