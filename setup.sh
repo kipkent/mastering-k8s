@@ -332,7 +332,8 @@ start() {
 
     echo "Waiting for components to be ready..."
     sleep 20
-
+    
+    # fix nginx pod
     echo "Remove the taint node manually"
     sudo sudo kubebuilder/bin/kubectl taint nodes $(hostname) node.cloudprovider.kubernetes.io/uninitialized-
     
@@ -341,6 +342,9 @@ start() {
     sudo kubebuilder/bin/kubectl get all -A
     sudo kubebuilder/bin/kubectl get componentstatuses || true
     sudo kubebuilder/bin/kubectl get --raw='/readyz?verbose'
+    
+    # add alias k
+    alias k='sudo kubebuilder/bin/kubectl'
 }
 
 stop() {
