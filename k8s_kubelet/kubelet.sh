@@ -142,7 +142,7 @@ EOF
     alias k='sudo kubebuilder/bin/kubectl'
 
     #move staticPod manifest
-    sudo cp $(pwd)/manifests/* /etc/kubernetes/manifests/
+    sudo cp $(pwd)/manifests/*.yaml /etc/kubernetes/manifests/
 }
 
 stop() {
