@@ -10,18 +10,18 @@ Tasks:
 #
 - cd k8s_kubelet && bash kubelet.sh start
 - debug privileged container:
-  kubectl debug node/codespaces-ca5b98 -it --image=verizondigital/kubectl-flame:v0.2.4-perf --profile=sysadmin -- sh
+  - kubectl debug node/codespaces-ca5b98 -it --image=verizondigital/kubectl-flame:v0.2.4-perf --profile=sysadmin -- sh
 
 - profile kube-apiserver: collect samples from PID
   - get PID:
-  - ps aux | grep kube-apiserver
-  - cd /app && ./perf record -F 99 -p PID -g -o perf.data -- sleep 30
+    - ps aux | grep kube-apiserver
+    - cd /app && ./perf record -F 99 -p PID -g -o perf.data -- sleep 30
 - build flame graph
-  ./perf script -i perf.data | FlameGraph/stackcollapse-perf.pl > out.folded
-  ./FlameGraph/flamegraph.pl out.folded > flame.svg
+  - ./perf script -i perf.data | FlameGraph/stackcollapse-perf.pl > out.folded
+  - ./FlameGraph/flamegraph.pl out.folded > flame.svg
 
 - Path of flame.svg
-  k8s_kubelet/flame.svg
+  - k8s_kubelet/flame.svg
   
 
 
@@ -29,7 +29,7 @@ Tasks:
 
 ## additional commands
 - add alias k
-  alias k='sudo kubebuilder/bin/kubectl'
+  - alias k='sudo kubebuilder/bin/kubectl'
 
 - pgrep containerd
 
