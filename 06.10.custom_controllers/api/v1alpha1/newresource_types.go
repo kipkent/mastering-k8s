@@ -24,7 +24,7 @@ type NewResourceStatus struct {
 }
 
 // +kubebuilder:object:root=true
-type NewResourceL ist struct {
+type NewResourceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NewResource `json:"items"`

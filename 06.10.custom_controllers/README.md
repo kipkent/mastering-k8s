@@ -32,3 +32,11 @@ You should see status.ready: true in the output.
 
 # metrics
 curl http://localhost:8080/metrics
+
+
+# For run integration test setup
+1. go install sigs.k8s.io/controller-runtime/tools/setup-envtest@latest
+2. setup-envtest use -p env
+3. export KUBEBUILDER_ASSETS=/home/youruser/.cache/kubebuilder-envtest/k8s/1.30.0-linux-amd64  ( from output)
+4. go build ./... && go test ./testing/ -v
+you should have output - ok      newresource-controller/testing
