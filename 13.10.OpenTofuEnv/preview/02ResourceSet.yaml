@@ -1,0 +1,50 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSet
+metadata:
+  name: app-kbot-preview
+  namespace: app-preview
+spec:
+  serviceAccountName: flux
+  inputsFrom:
+    - apiVersion: fluxcd.controlplane.io/v1
+      kind: ResourceSetInputProvider
+      name: app-pull-requests-kbot
+  resources:
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: GitRepository
+      metadata:
+        name: app-<< inputs.id >>
+        namespace: app-preview
+      spec:
+        provider: generic # or 'github' if using GitHub App
+        interval: 1m
+        url: https://github.com/den-vasyliev/kbot-src
+        ref:
+          commit: << inputs.sha >>
+        secretRef:
+          name: github-auth
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      metadata:
+        name: app-<< inputs.id >>
+        namespace: app-preview
+        annotations:
+          event.toolkit.fluxcd.io/preview-url: "https://quietly-just-ferret.ngrok-free.app/<< inputs.branch >>"
+          event.toolkit.fluxcd.io/branch: << inputs.branch | quote >>
+          event.toolkit.fluxcd.io/author: << inputs.author | quote >>
+      spec:
+        serviceAccountName: flux
+        interval: 1m
+        releaseName: app-<< inputs.id >>
+        chart:
+          spec:
+            chart: << inputs.chart >>
+            reconcileStrategy: Revision
+            sourceRef:
+              kind: GitRepository
+              name: app-<< inputs.id >>
+        values:
+          gateway:
+            path: /pr-<< inputs.id >>
+          image:
+            tag: << inputs.sha >>

@@ -1,0 +1,14 @@
+apiVersion: fluxcd.controlplane.io/v1
+kind: ResourceSetInputProvider
+metadata:
+  name: app-pull-requests-kbot
+  namespace: app-preview
+  annotations:
+    fluxcd.controlplane.io/reconcileEvery: "1m"
+spec:
+  type: GitHubPullRequest
+  url: https://github.com/den-vasyliev/kbot-src
+  secretRef:
+    name: github-auth
+  defaultValues:
+    chart: "./helm"

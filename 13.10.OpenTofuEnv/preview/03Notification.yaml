@@ -1,0 +1,32 @@
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: discord-bot
+  namespace: app-preview
+spec:
+  type: discord
+  secretRef:
+    name: discord-webhook
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: discord-webhook
+  namespace: app-preview
+stringData:
+  address: https://discord.com/api/webhooks/1342881189115199612/JL3CuBozI4DFelztw35VZ2l4rnT6rSTQiO0Yvi6TSEyKkBrNbQc5amstSZwQhBpvfmCi
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: discord-alert
+  namespace: app-preview
+spec:
+  providerRef:
+    name: discord-bot
+  eventSources:
+    - kind: GitRepository
+      name: '*'
+    - kind: HelmRelease
+      name: '*'
