@@ -29,9 +29,9 @@ curl -sS https://webi.sh/k9s | sh
 Add these helpful aliases to your shell configuration:
 
 ```bash
-alias kk="sudo EDITOR='code --wait' k9s"
-alias tf="sudo tofu"
-alias k="sudo kubectl"
+alias kk="EDITOR='code --wait' k9s"
+alias tf="tofu"
+alias k="kubectl"
 ```
 
 ### 3. Initialize and Apply Infrastructure
@@ -64,6 +64,7 @@ k get svc
 ### 5. Install Kind Load Balancer
 
 ```bash
+mkdir /go && mkdir /go/bin
 wget https://github.com/kubernetes-sigs/cloud-provider-kind/releases/download/v0.6.0/cloud-provider-kind_0.6.0_linux_amd64.tar.gz
 tar -xvzf cloud-provider-kind_0.6.0_linux_amd64.tar.gz -C /go/bin
 /go/bin/cloud-provider-kind >/dev/null 2>&1 &
